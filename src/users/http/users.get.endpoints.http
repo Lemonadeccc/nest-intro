@@ -1,0 +1,2 @@
+GET http://localhost:3000/users/123/?offset=100&limit=10
+
