@@ -19,9 +19,11 @@ import { Request } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { GetUsersPrarmDto } from './dtos/get-users-prarm.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private readonly userService: UsersService) {}
   @Get('/:id/{:optional}')
   public getUsers(
     // @Param('id', ParseIntPipe) id: number | undefined,
@@ -33,8 +35,9 @@ export class UsersController {
     // console.log(typeof id);
     // console.log(limit);
     // console.log(offset);
-    console.log(getUserParamDto);
-    return 'Getting all users';
+    // console.log(getUserParamDto);
+    // return 'Getting all users';
+    return this.userService.findAll(getUserParamDto, limit, offset);
   }
 
   @Post()
