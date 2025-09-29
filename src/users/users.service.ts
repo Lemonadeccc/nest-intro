@@ -11,7 +11,7 @@ export class UsersService {
   public findAll(
     getUsersPrarmDto: GetUsersPrarmDto,
     limit: number,
-    offset: number,
+    page: number,
   ) {
     const isAuth = this.authService.isAuth();
     console.log(isAuth);

@@ -1,2 +1,4 @@
-GET http://localhost:3000/users/123/?offset=100&limit=10
+# GET http://localhost:3000/users/123/?page=100&limit=10
+
+GET http://localhost:3000/users/123?page=100&limit=10
 
