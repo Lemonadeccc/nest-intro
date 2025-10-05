@@ -1,6 +1,10 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { GetUsersPrarmDto } from './dtos/get-users-prarm.dto';
+import { GetUsersPrarmDto } from '../dtos/get-users-prarm.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
+import { User } from '../user.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 /**
  * Class to connect to Users table and perform business operations
@@ -10,6 +14,8 @@ export class UsersService {
   constructor(
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   /**
@@ -44,5 +50,18 @@ export class UsersService {
       firstName: 'Alice',
       email: 'alice@doe.com',
     };
+  }
+
+  public async createUser(createUserDto: CreateUserDto) {
+    const existingUser = await this.userRepository.findOne({
+      where: {
+        email: createUserDto.email,
+      },
+    });
+
+    let newUser = this.userRepository.create(createUserDto);
+    newUser = await this.userRepository.save(newUser);
+
+    return newUser;
   }
 }
