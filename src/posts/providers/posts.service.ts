@@ -33,20 +33,25 @@ export class PostsService {
   }
 
   public async create(@Body() createPostDto: CreatePostDto) {
-    const { metaOptions, ...postPayload } = createPostDto;
-
-    let metaOptionEntity: MetaOption | null = null;
-    if (metaOptions && metaOptions.length > 0) {
-      metaOptionEntity = this.metaOptionsRepository.create(metaOptions[0]);
-      metaOptionEntity = await this.metaOptionsRepository.save(metaOptionEntity);
+    //Create metaOptions
+    const metaOptionsDto = createPostDto.metaOptions;
+    const metaOptions = metaOptionsDto
+      ? this.metaOptionsRepository.create(metaOptionsDto)
+      : undefined;
+    if (metaOptions) {
+      await this.metaOptionsRepository.save(metaOptions);
     }
+    // Create psot
+    const post = this.postsRepository.create({
+      ...createPostDto,
+      metaOptions,
+    });
 
-    const post = this.postsRepository.create(postPayload);
-
-    if (metaOptionEntity) {
-      post.metaOptions = metaOptionEntity;
+    // Add metaOptions to the post
+    if (metaOptions) {
+      post.metaOptions = metaOptions;
     }
-
-    return this.postsRepository.save(post);
+    //return the post
+    return await this.postsRepository.save(post);
   }
 }

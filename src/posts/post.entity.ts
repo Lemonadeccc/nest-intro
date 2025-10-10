@@ -70,14 +70,14 @@ export class Post {
   })
   publishOn?: Date;
 
+  @OneToOne(() => MetaOption)
+  @JoinColumn()
+  metaOptions?: MetaOption;
+
   // @Column({
   //   type: 'text',
   //   array: true,
   //   nullable: true,
   // })
   tags?: string[];
-
-  @OneToOne(() => MetaOption)
-  @JoinColumn()
-  metaOptions?: MetaOption;
 }

@@ -33,7 +33,7 @@ export class PostsController {
     summary: 'Updates an existing blog post',
   })
   @ApiResponse({
-    status: 201,
+    status: 200,
     description: 'A 200 response if your post is updated successfully.',
   })
   @Patch()

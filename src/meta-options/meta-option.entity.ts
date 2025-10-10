@@ -18,7 +18,7 @@ export class MetaOption {
   metaValue: string;
 
   @CreateDateColumn()
-  created: Date;
+  createDate: Date;
 
   @UpdateDateColumn()
   updateDate: Date;
