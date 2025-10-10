@@ -3,6 +3,8 @@ import { PostsService } from './providers/posts.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from './dtos/create-post.dto';
 import { PatchPostDto } from './dtos/patch-post.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -23,7 +25,8 @@ export class PostsController {
   })
   @Post()
   public createPost(@Body() createPostDto: CreatePostDto) {
-    console.log(createPostDto);
+    // console.log(createPostDto);
+    return this.postsService.create(createPostDto);
   }
 
   @ApiOperation({

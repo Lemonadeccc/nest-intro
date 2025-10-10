@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { GetUsersPrarmDto } from '../dtos/get-users-prarm.dto';
-import { AuthService } from 'src/auth/providers/auth.service';
+import { AuthService } from '../../auth/providers/auth.service';
 import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
