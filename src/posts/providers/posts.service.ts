@@ -61,7 +61,14 @@ export class PostsService {
     // //return the post
     // return await this.postsRepository.save(post);
 
-    let post = this.postsRepository.create(createPostDto);
+    // 6.16
+    //Find author from database based on authorId
+    let author = await this.usersService.findOneById(createPostDto.authorId);
+
+    let post = this.postsRepository.create({
+      ...createPostDto,
+      author: author!,
+    });
     return await this.postsRepository.save(post);
   }
 

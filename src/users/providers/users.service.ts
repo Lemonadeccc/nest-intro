@@ -44,12 +44,16 @@ export class UsersService {
   /**
    * Find a Single user using the ID of the user
    */
-  public findOneById(id: string) {
-    return {
-      id: 123,
-      firstName: 'Alice',
-      email: 'alice@doe.com',
-    };
+  public async findOneById(id: number) {
+    // return {
+    //   id: 123,
+    //   firstName: 'Alice',
+    //   email: 'alice@doe.com',
+    // };
+
+    return await this.userRepository.findOneBy({
+      id,
+    });
   }
 
   public async createUser(createUserDto: CreateUserDto) {
