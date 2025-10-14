@@ -8,12 +8,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
+import { ConfigModule } from '@nestjs/config';
+
+const ENV = process.env.NODE_ENV;
 
 @Module({
   imports: [
     UsersModule,
     PostsModule,
     AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      // envFilePath: ['.env.development'],
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+    }),
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
         import: [],
