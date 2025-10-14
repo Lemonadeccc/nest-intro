@@ -37,7 +37,10 @@ export class PostsService {
   public async findAll(userId: string) {
     // const user = this.usersService.findOneById(userId);
     let posts = await this.postsRepository.find({
-      relations: { metaOptions: true },
+      relations: {
+        metaOptions: true,
+        // , author: true, tags: true
+      },
     });
     return posts;
   }

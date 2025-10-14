@@ -92,7 +92,7 @@ export class Post {
   //   array: true,
   //   nullable: true,
   // })
-  @ManyToMany(() => Tag)
+  @ManyToMany(() => Tag, { eager: true })
   @JoinTable()
   tags?: Tag[];
 }
