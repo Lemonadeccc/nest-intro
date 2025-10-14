@@ -2,7 +2,7 @@ PATCH http://localhost:3000/posts
 Content-Type: application/json
 
 {
-    "id": 6,
+    "id": 8,
     "title": "What's new with NestJS With Typedscript",
     "postType": "post",
     "status": "draft",
@@ -12,6 +12,6 @@ Content-Type: application/json
     },
     "tags": [
         1,
-        2
+        3
     ]
 }
