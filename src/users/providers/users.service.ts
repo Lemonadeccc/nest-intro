@@ -1,4 +1,12 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { GetUsersPrarmDto } from '../dtos/get-users-prarm.dto';
 import { AuthService } from '../../auth/providers/auth.service';
 import { User } from '../user.entity';
@@ -37,22 +45,34 @@ export class UsersService {
     // const environment = this.configService.get<string>('S3_BUCKET');
     // console.log(environment);
 
-    console.log(this.profileConfiguration);
-    console.log(this.profileConfiguration.apiKey);
+    // console.log(this.profileConfiguration);
+    // console.log(this.profileConfiguration.apiKey);
+    // const isAuth = this.authService.isAuth();
+    // console.log(isAuth);
+    // return [
+    //   {
+    //     firstName: 'John',
+    //     email: 'john@gmail.com',
+    //   },
+    //   {
+    //     firstName: 'Alice',
+    //     email: 'alice@doe.com',
+    //   },
+    // ];
 
-    const isAuth = this.authService.isAuth();
-    console.log(isAuth);
-
-    return [
+    throw new HttpException(
       {
-        firstName: 'John',
-        email: 'john@gmail.com',
+        status: HttpStatus.MOVED_PERMANENTLY,
+        error: 'The API endpoint does not exist',
+        fileName: 'users.serivce.ts',
+        lineNumber: 88,
       },
+      HttpStatus.MOVED_PERMANENTLY,
       {
-        firstName: 'Alice',
-        email: 'alice@doe.com',
+        cause: new Error(),
+        description: 'Occured because the API endpoint was permanently moved.',
       },
-    ];
+    );
   }
 
   /**
@@ -71,11 +91,30 @@ export class UsersService {
   }
 
   public async createUser(createUserDto: CreateUserDto) {
-    const existingUser = await this.userRepository.findOne({
-      where: {
-        email: createUserDto.email,
-      },
-    });
+    let existingUser: User | null = null;
+
+    try {
+      existingUser = await this.userRepository.findOne({
+        where: {
+          email: createUserDto.email,
+        },
+      });
+    } catch (error) {
+      // 数据库连接错误
+      // 返回的json里 message是上面那个，error是下面描述的文字
+      throw new RequestTimeoutException(
+        'Unable to process your request at the moment please try later',
+        {
+          description: 'Error connecting to the database.',
+        },
+      );
+    }
+
+    if (existingUser) {
+      throw new BadRequestException(
+        'The user already exists,please check your email',
+      );
+    }
 
     let newUser = this.userRepository.create(createUserDto);
     newUser = await this.userRepository.save(newUser);
