@@ -16,6 +16,7 @@ import { CreatePostDto } from './dtos/create-post.dto';
 import { PatchPostDto } from './dtos/patch-post.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { GetPostDto } from './dtos/get-posts.dto';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -23,7 +24,11 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get('/{:userId}')
-  public getPosts(@Param('userId') userId: string) {
+  public getPosts(
+    @Param('userId') userId: string,
+    @Query() postQuery: GetPostDto,
+  ) {
+    console.log(postQuery);
     return this.postsService.findAll(userId);
   }
 
