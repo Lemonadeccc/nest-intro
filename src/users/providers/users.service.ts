@@ -18,6 +18,7 @@ import type { ConfigType } from '@nestjs/config';
 import { env } from 'process';
 import profileConfig from '../config/profile.config';
 import { UsersCreateManyProvider } from './users-create-many.provider';
+import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 
 /**
  * Class to connect to Users table and perform business operations
@@ -130,7 +131,7 @@ export class UsersService {
     return newUser;
   }
 
-  public async createMany(createUsersDto: CreateUserDto[]) {
+  public async createMany(createManyUsersDto: CreateManyUsersDto) {
     // let newUsers: User[] = [];
     // // Create query runner Instance
     // const queryRunner = this.dataSource.createQueryRunner();
@@ -154,6 +155,6 @@ export class UsersService {
     //   await queryRunner.release();
     // }
 
-    return await this.usersCreateManyProvider.createMany(createUsersDto);
+    return await this.usersCreateManyProvider.createMany(createManyUsersDto);
   }
 }
