@@ -10,13 +10,14 @@ import {
 import { GetUsersPrarmDto } from '../dtos/get-users-prarm.dto';
 import { AuthService } from '../../auth/providers/auth.service';
 import { User } from '../user.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { ConfigService } from '@nestjs/config';
 import type { ConfigType } from '@nestjs/config';
 import { env } from 'process';
 import profileConfig from '../config/profile.config';
+import { UsersCreateManyProvider } from './users-create-many.provider';
 
 /**
  * Class to connect to Users table and perform business operations
@@ -32,6 +33,13 @@ export class UsersService {
 
     @Inject(profileConfig.KEY)
     private readonly profileConfiguration: ConfigType<typeof profileConfig>,
+
+    // 移到 users-create-many.service.ts里了
+    // // Inject DataSource
+    // private readonly dataSource: DataSource,
+
+    // Inject usersCreateManyProvider
+    private readonly usersCreateManyProvider: UsersCreateManyProvider,
   ) {}
 
   /**
@@ -120,5 +128,32 @@ export class UsersService {
     newUser = await this.userRepository.save(newUser);
 
     return newUser;
+  }
+
+  public async createMany(createUsersDto: CreateUserDto[]) {
+    // let newUsers: User[] = [];
+    // // Create query runner Instance
+    // const queryRunner = this.dataSource.createQueryRunner();
+    // // Connect Query Runner to datasource
+    // await queryRunner.connect();
+    // // Start Transaction
+    // await queryRunner.startTransaction();
+    // try {
+    //   for (let user of createUsersDto) {
+    //     let newUser = queryRunner.manager.create(User, user);
+    //     let result = await queryRunner.manager.save(newUser);
+    //     newUsers.push(result);
+    //   }
+    //   // If successful commit
+    //   await queryRunner.commitTransaction();
+    // } catch (error) {
+    //   // If unsuccessful rollback
+    //   await queryRunner.rollbackTransaction();
+    // } finally {
+    //   // Release connection
+    //   await queryRunner.release();
+    // }
+
+    return await this.usersCreateManyProvider.createMany(createUsersDto);
   }
 }
