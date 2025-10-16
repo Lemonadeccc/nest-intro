@@ -19,6 +19,7 @@ import { env } from 'process';
 import profileConfig from '../config/profile.config';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
+import { CreateUserProvider } from './create-user.provider';
 
 /**
  * Class to connect to Users table and perform business operations
@@ -41,6 +42,8 @@ export class UsersService {
 
     // Inject usersCreateManyProvider
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+
+    private readonly createUserProvider: CreateUserProvider,
   ) {}
 
   /**
@@ -100,35 +103,33 @@ export class UsersService {
   }
 
   public async createUser(createUserDto: CreateUserDto) {
-    let existingUser: User | null = null;
+    // let existingUser: User | null = null;
+    // try {
+    //   existingUser = await this.userRepository.findOne({
+    //     where: {
+    //       email: createUserDto.email,
+    //     },
+    //   });
+    // } catch (error) {
+    //   // 数据库连接错误
+    //   // 返回的json里 message是上面那个，error是下面描述的文字
+    //   throw new RequestTimeoutException(
+    //     'Unable to process your request at the moment please try later',
+    //     {
+    //       description: 'Error connecting to the database.',
+    //     },
+    //   );
+    // }
+    // if (existingUser) {
+    //   throw new BadRequestException(
+    //     'The user already exists,please check your email',
+    //   );
+    // }
+    // let newUser = this.userRepository.create(createUserDto);
+    // newUser = await this.userRepository.save(newUser);
+    // return newUser;
 
-    try {
-      existingUser = await this.userRepository.findOne({
-        where: {
-          email: createUserDto.email,
-        },
-      });
-    } catch (error) {
-      // 数据库连接错误
-      // 返回的json里 message是上面那个，error是下面描述的文字
-      throw new RequestTimeoutException(
-        'Unable to process your request at the moment please try later',
-        {
-          description: 'Error connecting to the database.',
-        },
-      );
-    }
-
-    if (existingUser) {
-      throw new BadRequestException(
-        'The user already exists,please check your email',
-      );
-    }
-
-    let newUser = this.userRepository.create(createUserDto);
-    newUser = await this.userRepository.save(newUser);
-
-    return newUser;
+    return this.createUserProvider.createUser(createUserDto);
   }
 
   public async createMany(createManyUsersDto: CreateManyUsersDto) {
