@@ -4,16 +4,17 @@ Content-Type: application/json
 {
     "title": "What's new with NestJS",
     "postType": "post",
-    "slug": "new-with-nestjs-8",
+    "slug": "new-with-nestjs-15",
     "status": "draft",
     "content": "test content",
     "schema": "{\r\n \"@context\":\"https:\/\/schema.org\",\r\n \"@type\":\"Person\"\r\n }",
     "featuredImage": "https://localhost.com/images/image1.jpg",
-    "publishOn": "2024-03-16T07:46:32+0000",
+    // "publishOn": "2024-03-16T07:46:32+0000",
+    "publishOn": "2024-03-16T07:46:32+00:00",
     // "tags":["nestjs","typescript"],
     "metaOptions":{
       "metaValue":"{\"sidebarEnabled\":true,\"footerActive\":true}"
     },
     "authorId": 1,
-    "tags":[1,2]
+    "tags":[1,3]
 }
