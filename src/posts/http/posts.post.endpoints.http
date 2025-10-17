@@ -1,5 +1,10 @@
+{{
+  exports.publishOn = new Date().toString()
+}}
+
 POST http://localhost:3000/posts
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsImVtYWlsIjoibWFya0AxNjMuY29tIiwiaWF0IjoxNzYwNjgyNzI1LCJleHAiOjE3NjA2ODYzMjUsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.5LT6_JN_Y6OSMV4QAJf-xEdpAYxcLbKHGLxU--mbttA
 
 {
     "title": "What's new with NestJS",
@@ -10,7 +15,7 @@ Content-Type: application/json
     "schema": "{\r\n \"@context\":\"https:\/\/schema.org\",\r\n \"@type\":\"Person\"\r\n }",
     "featuredImage": "https://localhost.com/images/image1.jpg",
     // "publishOn": "2024-03-16T07:46:32+0000",
-    "publishOn": "2024-03-16T07:46:32+00:00",
+    "publishOn": "{{publishOn}}",
     // "tags":["nestjs","typescript"],
     "metaOptions":{
       "metaValue":"{\"sidebarEnabled\":true,\"footerActive\":true}"
