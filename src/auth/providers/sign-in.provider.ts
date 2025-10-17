@@ -12,6 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import type { ConfigType } from '@nestjs/config';
 import jwtConfig from '../config/jwt.config';
 import { ActiveUserData } from '../interfaces/active-user.interface';
+import { GenerateTokenProvider } from './generate-token.provider';
 
 @Injectable()
 export class SignInProvider {
@@ -24,9 +25,12 @@ export class SignInProvider {
     private readonly hashingProvider: HashingProvider,
 
     // jwt
-    private readonly jwtService: JwtService,
-    @Inject(jwtConfig.KEY)
-    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+    // private readonly jwtService: JwtService,
+    // @Inject(jwtConfig.KEY)
+    // private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+
+    // inject generateTokenProvider
+    private readonly generateTokenProvider: GenerateTokenProvider,
   ) {}
   public async signIn(signInDto: SignInDto) {
     // find the user using email ID
@@ -53,20 +57,23 @@ export class SignInProvider {
     // return true;
 
     // generate JWT
-    const accessToken = await this.jwtService.signAsync(
-      {
-        sub: user.id,
-        email: user.email,
-      } as ActiveUserData,
-      {
-        audience: this.jwtConfiguration.audience,
-        issuer: this.jwtConfiguration.issuer,
-        secret: this.jwtConfiguration.secret,
-        expiresIn: this.jwtConfiguration.accessTokenTTL,
-      },
-    );
-    return {
-      accessToken,
-    };
+    // const accessToken = await this.jwtService.signAsync(
+    //   {
+    //     sub: user.id,
+    //     email: user.email,
+    //   } as ActiveUserData,
+    //   {
+    //     audience: this.jwtConfiguration.audience,
+    //     issuer: this.jwtConfiguration.issuer,
+    //     secret: this.jwtConfiguration.secret,
+    //     expiresIn: this.jwtConfiguration.accessTokenTTL,
+    //   },
+    // );
+
+    // return {
+    //   accessToken,
+    // };
+
+    return await this.generateTokenProvider.generateTokens(user);
   }
 }
