@@ -4,12 +4,12 @@
 
 POST http://localhost:3000/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsImVtYWlsIjoibWFya0AxNjMuY29tIiwiaWF0IjoxNzYwNjgyNzI1LCJleHAiOjE3NjA2ODYzMjUsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.5LT6_JN_Y6OSMV4QAJf-xEdpAYxcLbKHGLxU--mbttA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsImVtYWlsIjoibWFya0AxNjMuY29tIiwiaWF0IjoxNzYwNjg3MTg0LCJleHAiOjE3NjA2OTA3ODQsImF1ZCI6ImxvY2FsaG9zdDozMDAwIiwiaXNzIjoibG9jYWxob3N0OjMwMDAifQ.snFrRJcBPdA-X0Gzp8wyl_bE8eDR0bk66KJRp466DIA
 
 {
     "title": "What's new with NestJS",
     "postType": "post",
-    "slug": "new-with-nestjs-15",
+    "slug": "new-with-nestjs-16",
     "status": "draft",
     "content": "test content",
     "schema": "{\r\n \"@context\":\"https:\/\/schema.org\",\r\n \"@type\":\"Person\"\r\n }",
@@ -20,6 +20,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjcsImVtYWlsI
     "metaOptions":{
       "metaValue":"{\"sidebarEnabled\":true,\"footerActive\":true}"
     },
-    "authorId": 1,
+    // "authorId": 1,
     "tags":[1,3]
 }

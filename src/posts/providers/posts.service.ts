@@ -16,6 +16,8 @@ import { Tag } from 'src/tags/tag.entity';
 import { GetPostDto } from '../dtos/get-posts.dto';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
 import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
+import { CreatePostProvider } from './create-post.provider';
+import { ActiveUserData } from 'src/auth/interfaces/active-user.interface';
 
 @Injectable()
 export class PostsService {
@@ -28,6 +30,9 @@ export class PostsService {
     private readonly tagsService: TagsService,
     // injecting paginationProvider
     private readonly paginationProvider: PaginationProvider,
+
+    // Inejct createPostProvider
+    private readonly createPostProvider: CreatePostProvider,
   ) {}
   // public findAll(userId: string) {
   //   const user = this.usersService.findOneById(userId);
@@ -70,7 +75,7 @@ export class PostsService {
     return posts;
   }
 
-  public async create(@Body() createPostDto: CreatePostDto) {
+  public async create(createPostDto: CreatePostDto, user: ActiveUserData) {
     // //Create metaOptions
     // const metaOptionsDto = createPostDto.metaOptions;
     // const metaOptions = metaOptionsDto
@@ -92,19 +97,22 @@ export class PostsService {
     // //return the post
     // return await this.postsRepository.save(post);
 
-    // 6.16
-    //Find author from database based on authorId
-    let author = await this.usersService.findOneById(createPostDto.authorId);
-    let tags = createPostDto.tags
-      ? await this.tagsService.findMultipleTags(createPostDto.tags)
-      : [];
+    // // 6.16
+    // //Find author from database based on authorId
+    // let author = await this.usersService.findOneById(createPostDto.authorId);
+    // let tags = createPostDto.tags
+    //   ? await this.tagsService.findMultipleTags(createPostDto.tags)
+    //   : [];
 
-    let post = this.postsRepository.create({
-      ...createPostDto,
-      author: author!,
-      tags: tags,
-    });
-    return await this.postsRepository.save(post);
+    // let post = this.postsRepository.create({
+    //   ...createPostDto,
+    //   author: author!,
+    //   tags: tags,
+    // });
+    // return await this.postsRepository.save(post);
+
+    //13.16
+    return await this.createPostProvider.create(createPostDto, user);
   }
 
   public async delete(id: number) {
