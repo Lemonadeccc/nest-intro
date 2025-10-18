@@ -28,15 +28,19 @@ export class RefreshTokenProvider {
   public async refreshToken(refreshTokenDto: RefreshTokenDto) {
     try {
       // verify the refresh token
-      const { sub } =
-        (await this.jwtService.verifyAsync) <
-        Pick<ActiveUserData, 'sub'>(refreshTokenDto.refreshToken, {
-          secret: this.jwtConfiguration.secret,
-          audience: this.jwtConfiguration.audience,
-          issuer: this.jwtConfiguration.issuer,
-        });
+      const { sub } = await this.jwtService.verifyAsync<
+        Pick<ActiveUserData, 'sub'>
+      >(refreshTokenDto.refreshToken, {
+        secret: this.jwtConfiguration.secret,
+        audience: this.jwtConfiguration.audience,
+        issuer: this.jwtConfiguration.issuer,
+      });
       // fetch user from the database
       const user = await this.userService.findOneById(sub);
+      // check if user exists
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
       // generate the tokens
       return await this.generateTokenProvider.generateTokens(user);
     } catch (error) {
