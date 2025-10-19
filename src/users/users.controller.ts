@@ -16,6 +16,8 @@ import {
   ValidationPipe,
   UseGuards,
   SetMetadata,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { Request } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -73,6 +75,7 @@ export class UsersController {
   @Post()
   // @SetMetadata('authType', 'none')
   @Auth(AuthType.None)
+  @UseInterceptors(ClassSerializerInterceptor)
   public createUser(@Body() createUserDto: CreateUserDto) {
     // console.log(createUserDto);
     // console.log(createUserDto instanceof CreateUserDto);
