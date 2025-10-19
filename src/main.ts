@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
@@ -16,7 +15,7 @@ async function bootstrap() {
       },
     }),
   );
-  const config = new DocumentBuilder()
+  const swaggerConfig = new DocumentBuilder()
     .setTitle('NestJS Intro')
     .setDescription('Use the base API url as http://localhost:3000')
     .setTermsOfService('http://localhost:3000/terms-of-service')
@@ -28,7 +27,8 @@ async function bootstrap() {
     .setVersion('1.0')
     // .addTag('cats')
     .build();
-  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  const documentFactory = () =>
+    SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, documentFactory);
 
   // enable cors
